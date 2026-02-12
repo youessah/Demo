@@ -33,13 +33,13 @@ jobs:
       - name: Login DockerHub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_NAME }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # 6️⃣ Build Docker image (Correction : 'demo' en minuscules)
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKERHUB_NAME }}/demo:latest demo
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/demo:latest demo
 
       # 7️⃣ Push image
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKERHUB_NAME }}/demo:latest
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/demo:latest
