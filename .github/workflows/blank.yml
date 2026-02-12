@@ -20,7 +20,13 @@ jobs:
         uses: actions/checkout@v4
 
       # =========================
-      # 2️⃣ Installer Java 21
+      # 2️⃣ Debug — voir la structure
+      # =========================
+      - name: Show folder structure
+        run: ls -R
+
+      # =========================
+      # 3️⃣ Installer Java 21
       # =========================
       - name: Set up Java 21
         uses: actions/setup-java@v4
@@ -30,14 +36,13 @@ jobs:
           cache: maven
 
       # =========================
-      # 3️⃣ Build + Tests Maven
+      # 4️⃣ Build + Tests Maven
       # =========================
       - name: Build with Maven
-        working-directory: Demo
-
+        run: mvn clean verify
 
       # =========================
-      # 4️⃣ Login DockerHub
+      # 5️⃣ Login DockerHub
       # =========================
       - name: Login to DockerHub
         uses: docker/login-action@v3
@@ -46,13 +51,13 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # =========================
-      # 5️⃣ Build image Docker
+      # 6️⃣ Build Docker image
       # =========================
       - name: Build Docker image
         run: docker build -t ${{ secrets.DOCKERHUB_NAME }}/demo:latest .
 
       # =========================
-      # 6️⃣ Push Docker image
+      # 7️⃣ Push Docker image
       # =========================
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKERHUB_NAME }}/demo:latest
