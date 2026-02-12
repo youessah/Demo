@@ -4,30 +4,21 @@ on:
   push:
     branches: ["main"]
 
-  pull_request:
-    branches: ["main"]
-
 jobs:
   build-test-docker:
     runs-on: ubuntu-latest
 
     steps:
 
-      # =========================
-      # 1️⃣ Checkout code
-      # =========================
+      # 1️⃣ Checkout
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # =========================
-      # 2️⃣ Debug — voir la structure
-      # =========================
-      - name: Show folder structure
+      # 2️⃣ Debug arborescence
+      - name: Show structure
         run: ls -R
 
-      # =========================
-      # 3️⃣ Installer Java 21
-      # =========================
+      # 3️⃣ Java 21
       - name: Set up Java 21
         uses: actions/setup-java@v4
         with:
@@ -35,29 +26,21 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      # =========================
-      # 4️⃣ Build + Tests Maven
-      # =========================
+      # 4️⃣ Build Maven (pom dans sous-dossier Demo)
       - name: Build with Maven
-        run: mvn clean verify
+        run: mvn -f Demo/pom.xml clean verify
 
-      # =========================
       # 5️⃣ Login DockerHub
-      # =========================
-      - name: Login to DockerHub
+      - name: Login DockerHub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_NAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # =========================
       # 6️⃣ Build Docker image
-      # =========================
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKERHUB_NAME }}/demo:latest .
+        run: docker build -t ${{ secrets.DOCKERHUB_NAME }}/demo:latest Demo
 
-      # =========================
-      # 7️⃣ Push Docker image
-      # =========================
+      # 7️⃣ Push image
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKERHUB_NAME }}/demo:latest
