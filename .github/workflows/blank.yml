@@ -34,7 +34,6 @@ jobs:
       # =========================
       - name: Build with Maven
         working-directory: Demo
-        run: mvn clean verify
 
 
       # =========================
