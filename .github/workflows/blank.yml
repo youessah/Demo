@@ -9,12 +9,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       # 1️⃣ Checkout
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Debug arborescence
+      # 2️⃣ Debug arborescence (Regardez bien le résultat de cette étape dans GitHub !)
       - name: Show structure
         run: ls -R
 
@@ -26,9 +25,9 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      # 4️⃣ Build Maven (pom dans sous-dossier Demo)
+      # 4️⃣ Build Maven (Correction : 'demo' en minuscules)
       - name: Build with Maven
-        run: mvn -f Demo/pom.xml clean verify
+        run: mvn -f demo/pom.xml clean verify
 
       # 5️⃣ Login DockerHub
       - name: Login DockerHub
@@ -37,9 +36,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_NAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # 6️⃣ Build Docker image
+      # 6️⃣ Build Docker image (Correction : 'demo' en minuscules)
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKERHUB_NAME }}/demo:latest Demo
+        run: docker build -t ${{ secrets.DOCKERHUB_NAME }}/demo:latest demo
 
       # 7️⃣ Push image
       - name: Push Docker image
