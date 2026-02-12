@@ -33,7 +33,9 @@ jobs:
       # 3️⃣ Build + Tests Maven
       # =========================
       - name: Build with Maven
+        working-directory: Demo
         run: mvn clean verify
+
 
       # =========================
       # 4️⃣ Login DockerHub
