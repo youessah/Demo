@@ -41,5 +41,5 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B -f demo/pom.xml verify \
-             org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+            org.sonarsource.scanner.maven:sonar-maven-plugin:3.10.0.2594:sonar \
              -Dsonar.projectKey=youessah_Demo
